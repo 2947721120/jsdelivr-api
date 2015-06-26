@@ -6,6 +6,7 @@ var async = require('async')
   , _ = require('lodash')
   , request = require('request')
 
+  , log = require('../lib/log')
   , config = require('../config');
 
 var db = config.db;
@@ -17,7 +18,8 @@ module.exports = function (dbs, cb) {
       // note the error but don't exit out of the loop,
       // it's okay to serve stale content if something goes wrong during the sync
       if (err) {
-        console.log('Error syncing CDN %s', cdn, err);
+        log.err('Error syncing CDN ' + cdn);
+        log.err(err);
       }
       next();
     });
@@ -41,7 +43,7 @@ function _syncCDN(dbs, cdn, cb) {
 
   // get the remote cache file
   var _url = url.resolve(config.syncUrl, cdn + '.json');
-  console.log('Starting to sync %s from source %s', cdn, _url);
+  log.info('Starting to sync ' + cdn + ' from source ' + _url);
 
   request.get(_url, {
     json: true
@@ -54,7 +56,7 @@ function _syncCDN(dbs, cdn, cb) {
       return cb(new Error(`Request to sync ${cdn} from ${cdn} failed`));
     }
 
-    console.log('Files for sync of %s retrieved from source %s', cdn, _url);
+    log.info('Files for sync of ' + cdn + ' retrieved from source ' + _url);
 
     async.eachLimit(remoteEtags, 10, function (remoteEtag, done) {
       if (!etags[remoteEtag.path] || etags[remoteEtag.path].etag !== remoteEtag.etag) {
@@ -65,7 +67,8 @@ function _syncCDN(dbs, cdn, cb) {
           // all an error means is the api will serve stale content for a library
           // that may be mucked up on the api-sync side
           if (err) {
-            console.error('Error syncing library!', err);
+            log.err('Error syncing library ' + remoteEtag.path);
+            log.err(err);
           }
           // update the running etag cache
           else {
@@ -83,7 +86,7 @@ function _syncCDN(dbs, cdn, cb) {
       // update the etag collection if nothing drastic has happened
       if (!err) {
         _upsertCDNEtags(etagsCollection, cdn, etags);
-        console.log(`Successfully synced libraries for ${cdn}`);
+        log.info(`Successfully synced libraries for ${cdn}`);
       }
       cb(err);
     });

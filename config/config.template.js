@@ -1,9 +1,10 @@
 module.exports = {
   port: 8001,
+  logentriesToken: '',
   //cdns: ['bootstrap', 'cdnjs', 'google', 'jsdelivr', 'jquery'],
   cdns: ['bootstrap-cdn', 'jsdelivr', 'cdnjs', 'google'],
   //cdns: ['bootstrap-cdn', 'jsdelivr', 'cdnjs'],
-  //cdns: ['bootstrap','google'],
+  //cdns: ['bootstrap-cdn','google'],
   db: 'db',
   cdnCollections: [
     {name: 'bootstrap-cdn', aliases: ['bootstrap']},

@@ -10,7 +10,8 @@ var express = require('express')
   , _ = require('lodash')
 
   , dbs = require('./db')
-  , config = require('./config');
+  , config = require('./config')
+  , log = require('./lib/log');
 
 var db = config.db
   , taskUpdating = {};
@@ -29,7 +30,8 @@ function main(cb) {
   ], function (err) {
 
     if (err) {
-      console.log('Error starting application!', err);
+      log.err('Error starting application!', err);
+      log.err(err);
       process.exit();
     }
     else if (cb)
@@ -39,7 +41,7 @@ function main(cb) {
 
 var intervalSet = false;
 function runTasks(cb) {
-  console.log('Running tasks');
+  log.info('Running tasks');
 
   // first kick off the tasks
   async.eachSeries(Object.keys(config.tasks), function (name, done) {
@@ -47,7 +49,10 @@ function runTasks(cb) {
     runTask(name, done);
   }, function (err) {
 
-    if (err) console.error('Error initializing tasks', err);
+    if (err) {
+      log.err('Error initializing tasks');
+      log.err(err);
+    }
 
     //then set the interval
     if (!intervalSet) {
@@ -57,7 +62,7 @@ function runTasks(cb) {
       // we want to space out the start of each sync cycle by 10 minutes each
       setInterval(function () {
         runTasks(function () {
-          console.log('libraries synced!');
+          log.info('libraries synced!');
           return true;
         });
       }, interval);
@@ -85,24 +90,24 @@ function runTask(name, cb) {
         taskUpdating[name] = false;
         cb();
 
-        console.log('Purging cache');
+        log.info('Purging cache');
 
         var purgeCache = require('./lib/purge')(config.maxcdn);
         purgeCache(function (err) {
           if (err) {
-            return console.error(err);
+            return log.err(err);
           }
 
-          console.log('Cache purged');
+          log.info('Cache purged');
         });
       });
     } catch (e) {
-      console.error(e);
+      log.err(e);
       cb();
     }
   }
   else {
-    console.log('Task %s is already running', name);
+    log.info('Task %s is already running', name);
     cb();
   }
 }
