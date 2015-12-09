@@ -1,12 +1,12 @@
-# Public CDNs API
+# 公众的CDN API
 
 Root: `/v1/<cdn>/libraries`
 
 Supports `jsdelivr`, `google`, `cdnjs`, and `bootstrap`.
 
-Only GET requests are allowed. No limits are set.
+只有GET请求是允许的。不设置限制。
 
-Get all hosted libraries in JSON format
+获取JSON格式的所有托管库
 
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries
@@ -16,7 +16,7 @@ http://api.jsdelivr.com/v1/bootstrap/libraries
 ```
 
 
-Get full information for a single library based on `name` parameter.
+获取充分信息的基础上单个库 `name` parameter.
 
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries?name=jquery
