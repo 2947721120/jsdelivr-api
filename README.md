@@ -23,49 +23,49 @@ http://api.jsdelivr.com/v1/jsdelivr/libraries?name=jquery
 http://api.jsdelivr.com/v1/jsdelivr/libraries/jquery - alias
 ```
 
-Get full information for any library starting with `jq` that has lastversion ending with `0.1`. [minimatch](https://www.npmjs.org/package/minimatch) syntax is supported.
+获取充分的信息来启动与 `jq` that has lastversion ending with `0.1`. [minimatch](https://www.npmjs.org/package/minimatch) syntax is supported.
 
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries?name=jq*&lastversion=*.0.1
 ```
 
-You can use any of the following parameters to search for libraries. A search will be performed for projects matching your input. You can use multiple parameters at the same time. If multiple projects match they all will be outputed.
+您可以使用下列任何一种参数来搜索库。搜索将为您输入的项目进行搜索。可以同时使用多个参数。如果多个项目的比赛，他们都将输出。
 
-* `name` - name of library. Example: jquery
-* `mainfile` - mainfile parameter in info.ini. Example: jquery.min.js
-* `lastversion`- lastversion of the project. Example: 2.0.3 (will match multiple projects)
-* `versions` -  all hosted versions for selected project. (read only)
-* `description` - description of the project
-* `homepage`- webpage of project. Example: http://jquery.com/
-* `github`- github page of project. Example: https://github.com/jquery/jquery
-* `author` - the author of project. Example: jQuery Foundation
-* `assets` - files hosted per versions. (read only)
+* `name` - 库的名称。jQuery的例子：
+* `mainfile` - 在info.ini主要的工艺文件参数。例如：jquery.min.js
+* `lastversion`- 该项目lastversion。例如：第2.0.3条（将多个项目）
+* `versions` -  选定项目的所有托管版本。（只读）
+* `description` - 项目说明
+* `homepage`- 网页上的项目。例子：http://jquery.com/
+* `github`- GitHub页面项目。例子: https://github.com/jquery/jquery
+* `author` - 项目作者。例子: jQuery Foundation
+* `assets` - 每版本的文件. (read only)
 
 
-You can combine the above parameters with the parameter `fields`. This way you can control the output. For example to get the `mainfile` for jQuery you would run the following request.
+可以将上述参数与参数组合起来 `fields`. 这样你可以控制输出。例如，得到的 `mainfile` jQuery你运行以下要求。
 
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries?name=jquery&fields=mainfile
 ```
 
 
-It's possible to set multiple fields using a comma for separation.
+可以用逗号分隔多个字段，用于分离。
 
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries?name=jquery&fields=mainfile,name
 ```
 
-Get hosted files per version for jQuery
+获得托管每个版本的文件的jQuery
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries?name=jquery&fields=assets
 ```
 
-Get hosted files for a selected version
+得到承载的文件为一个选择的版本
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries/jquery/2.0.3
 ```
 
-Get libraries matching to any part of query (defaults to `and`)
+将库匹配到任何查询的任何部分（默认值为 `and`)
 ```
 http://api.jsdelivr.com/v1/jsdelivr/libraries?name=jquery&op=or
 ```
