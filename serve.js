@@ -40,7 +40,7 @@ var intervalSet = false;
 function runTasks(cb) {
   console.log('Running tasks');
 
-  // first kick off the tasks
+  // 首先揭开任务首先揭开任务=first kick off the tasks
   async.eachSeries(Object.keys(config.tasks), function (name, done) {
     taskUpdating[name] = false;
     runTask(name, done);
@@ -48,12 +48,12 @@ function runTasks(cb) {
 
     if (err) console.error("Error initializing tasks", err);
 
-    //then set the interval
+    //然后设置间隔
     if (!intervalSet) {
       intervalSet = true;
       var interval = 6 * (10 * 1e4);
 
-      // we want to space out the start of each sync cycle by 10 minutes each
+      //我们想空间出每个同步周期开始时由每次10分钟
       setInterval(function () {
         runTasks(function () {
           console.log("libraries synced!");
@@ -81,7 +81,7 @@ function runTask(name, cb) {
         else
           console.log("Task %s complete", name);
 
-        // don't wait for the cache to be cleared
+        // 不用于高速缓存等待被清除
         taskUpdating[name] = false;
         cb();
 
@@ -116,16 +116,16 @@ function serve(cb) {
   app.use(morgan('dev'));
   app.set('json spaces', 2);
 
-  // setup CORS
+  //HEARTS设置
   app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
   });
 
-  // v1 routes
+  // v1 路线
   app.use("/v1", require("./routes.v1/libraries"));
 
-  // catch all
+  // 捕捉所有
   app.all("*", function (req, res) {
     res.status(404).json({status: 404, message: "Requested url " + req.url + " not found."});
   });
